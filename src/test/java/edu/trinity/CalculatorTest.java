@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CalculatorTest {
 
     @Test
-    void add() {
+    public void add() {
         Calculator calc = new Calculator();
         assertEquals(5, calc.add(2, 3));
 
