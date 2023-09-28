@@ -1,10 +1,11 @@
-package edu.trinity;
+package edu.trinity.functional;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@SuppressWarnings({"Java8ListSort", "Convert2Lambda"})
 public class OldStyle {
     public static void main(String[] args) {
         String[] words = "this is a list of string".split("\\s+");
@@ -20,7 +21,7 @@ public class OldStyle {
         System.out.println(evens);
 
         // Sort them by length
-        Collections.sort(evens, new Comparator<String>() {
+        Collections.sort(evens, new Comparator<>() {
             @Override
             public int compare(String o1, String o2) {
                 return o1.length() - o2.length();

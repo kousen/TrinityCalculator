@@ -1,4 +1,4 @@
-package edu.trinity;
+package edu.trinity.functional;
 
 import java.util.*;
 
