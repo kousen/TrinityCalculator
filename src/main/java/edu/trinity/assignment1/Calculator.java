@@ -1,4 +1,4 @@
-package edu.trinity;
+package edu.trinity.assignment1;
 
 import java.util.List;
 

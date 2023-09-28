@@ -1,4 +1,4 @@
-package edu.trinity;
+package edu.trinity.assignment1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
