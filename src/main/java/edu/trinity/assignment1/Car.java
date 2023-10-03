@@ -7,6 +7,7 @@ public class Car {
     private final String make;
     private final String model;
     private final Year year;
+
     private double miles;
     private boolean running;
 
