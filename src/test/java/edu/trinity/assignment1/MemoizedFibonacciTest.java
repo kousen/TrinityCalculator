@@ -17,7 +17,7 @@ class MemoizedFibonacciTest {
     // in src/test/resources/fibonacci_numbers.csv. The first line of the CSV
     // file is a header line, which is skipped by setting numLinesToSkip = 1.
 
-    @ParameterizedTest(name = "Fibonacci({0}) = {1}")
+    @ParameterizedTest(name = "Fibonacci({0}) == {1}")
     @CsvFileSource(resources = "/fibonacci_numbers.csv", numLinesToSkip = 1)
     void testFibonacci(int n, BigInteger expected) {
         assertEquals(expected, fibonacci.calculate(n));
