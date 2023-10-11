@@ -12,6 +12,7 @@ public class SqlInjectionExample {
         try {
             Class.forName(Driver.class.getName());
             connection = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+            System.out.println(connection.getClass().getName());
             setupDatabase(connection);
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
@@ -28,7 +29,8 @@ public class SqlInjectionExample {
 
     @SuppressWarnings("SqlSourceToSinkFlow")
     public boolean login(String username, String password) throws SQLException {
-        String sql = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'";
+        String sql = "SELECT * FROM users WHERE username='" + username +
+                     "' AND password='" + password + "'";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             return resultSet.next();
