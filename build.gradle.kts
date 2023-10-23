@@ -16,7 +16,9 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("net.jqwik:jqwik:1.8.0")
+    testImplementation("net.jqwik:jqwik:1.8.1")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {
