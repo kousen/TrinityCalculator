@@ -1,49 +1,16 @@
 package edu.trinity.got;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class InMemoryMemberDAO implements MemberDAO {
-    private static final MemberDAO dao = new InMemoryMemberDAO();
-
-    private final List<Member> allMembers = Arrays.asList(
-            new Member(1L, Title.LORD, "Eddard", LocalDate.of(1959, Month.APRIL, 17), 100000.0, new House("Stark")),
-            new Member(2L, Title.LADY, "Catelyn", LocalDate.of(1964, Month.JANUARY, 17), 80000.0, new House("Stark")),
-            new Member(3L, Title.LADY, "Arya", LocalDate.of(1997, Month.APRIL, 15), 50000.0, new House("Stark")),
-            new Member(4L, Title.LADY, "Sansa", LocalDate.of(1996, Month.FEBRUARY, 21), 60000.0, new House("Stark")),
-            new Member(5L, Title.SIR, "Bran", LocalDate.of(1999, Month.APRIL, 9), 10000.0, new House("Stark")),
-            new Member(6L, Title.KING, "Robb", LocalDate.of(1986, Month.JUNE, 18), 100000.0, new House("Stark")),
-            new Member(7L, Title.KING, "Jon", LocalDate.of(1986, Month.DECEMBER, 26), 90000.0, new House("Snow")),
-            new Member(8L, Title.SIR, "Jaime", LocalDate.of(1970, Month.JULY, 27), 120000.0, new House("Lannister")),
-            new Member(9L, Title.LORD, "Tyrion", LocalDate.of(1969, Month.JUNE, 11), 70000.0, new House("Lannister")),
-            new Member(10L, Title.LORD, "Tywin", LocalDate.of(1946, Month.OCTOBER, 10), 200000.0, new House("Lannister")),
-            new Member(11L, Title.LADY, "Cersei", LocalDate.of(1973, Month.OCTOBER, 3), 120000.0, new House("Lannister")),
-            new Member(12L, Title.QUEEN, "Daenerys", LocalDate.of(1987, Month.MAY, 1), 130000.0, new House("Targaryen")),
-            new Member(13L, Title.LORD, "Viserys", LocalDate.of(1983, Month.NOVEMBER, 17), 100000.0, new House("Targaryen")),
-            new Member(14L, Title.KING, "Robert", LocalDate.of(1964, Month.JANUARY, 14), 180000.0, new House("Baratheon")),
-            new Member(15L, Title.KING, "Joffrey", LocalDate.of(1992, Month.MAY, 20), 100000.0, new House("Baratheon")),
-            new Member(16L, Title.KING, "Tommen", LocalDate.of(1997, Month.SEPTEMBER, 7), 60000.0, new House("Baratheon")),
-            new Member(17L, Title.KING, "Stannis", LocalDate.of(1957, Month.MARCH, 27), 123456.0, new House("Baratheon")),
-            new Member(18L, Title.QUEEN, "Margaery", LocalDate.of(1982, Month.FEBRUARY, 11), 80000.0, new House("Tyrell")),
-            new Member(19L, Title.SIR, "Loras", LocalDate.of(1988, Month.MARCH, 24), 70000.0, new House("Tyrell")),
-            new Member(20L, Title.LADY, "Olenna", LocalDate.of(1938, Month.JULY, 20), 130000.0, new House("Tyrell")),
-            new Member(21L, Title.LORD, "Roose", LocalDate.of(1963, Month.SEPTEMBER, 12), 100000.0, new House("Bolton")),
-            new Member(22L, Title.LORD, "Ramsay", LocalDate.of(1985, Month.MAY, 13), 140000.0, new House("Bolton"))
-    );
-
-    private InMemoryMemberDAO() {}
-
-    public static MemberDAO getInstance() {
-        return dao;
-    }
+    private final Collection<Member> allMembers = MemberDB.getInstance().getAllMembers();
 
     @Override
-    public Member findById(Long id) {
+    public Optional<Member> findById(Long id) {
         return allMembers.stream()
                 .filter(member -> member.id().equals(id))
-                .findFirst().orElse(null);
+                .findFirst();
     }
 
     @Override
@@ -64,4 +31,167 @@ public class InMemoryMemberDAO implements MemberDAO {
     public Collection<Member> getAll() {
         return Collections.unmodifiableCollection(allMembers);
     }
+
+    /**
+     * Find all members whose name starts with S and sort by id (natural sort)
+     */
+    public List<Member> startWithSandSortAlphabetically() {
+        return allMembers.stream()
+                .filter(member -> member.name().startsWith("S"))
+                .sorted()
+                .toList();
+    }
+
+    /**
+     * Final all Lannisters and sort them by name
+     */
+    public List<Member> lannisters_alphabeticallyByName() {
+        return allMembers.stream()
+                .filter(member -> member.house() == House.LANNISTER)
+                .sorted(Comparator.comparing(Member::name))
+                .toList();
+    }
+
+    /**
+     * Find all members whose salary is less than the given value and sort by house
+     */
+    public List<Member> salaryLessThanAndSortByHouse(double max) {
+        return allMembers.stream()
+                .filter(member -> member.salary() < max)
+                .sorted(Comparator.comparing(Member::house))
+                .toList();
+    }
+
+    /**
+     * Sort members by House, then by name
+     */
+    public List<Member> sortByHouseNameThenSortByNameDesc() {
+        return allMembers.stream()
+                .sorted(Comparator.comparing(Member::house)
+                        .thenComparing(Comparator.comparing(Member::name).reversed()))
+                .toList();
+    }
+
+    /**
+     * Sort the members of a given House by birthdate
+     */
+    public List<Member> houseByDob(House house) {
+        return allMembers.stream()
+                .filter(member -> member.house() == house)
+                .sorted(Comparator.comparing(Member::dob))
+                .toList();
+    }
+
+    /**
+     * Find all Kings and sort by name in descending order
+     */
+    public List<Member> kingsByNameDesc() {
+        return allMembers.stream()
+                .filter(member -> member.title() == Title.KING)
+                .sorted(Comparator.comparing(Member::name).reversed())
+                .toList();
+    }
+
+    /**
+     * Find the average salary of all the members
+     */
+    public double averageSalary() {
+        return allMembers.stream()
+                .mapToDouble(Member::salary)
+                .average()
+                .orElse(0.0);
+    }
+
+    /**
+     * Get the names of a given house, sorted in natural order
+     * (note sort by _names_, not members)
+     */
+    public List<String> namesSorted(House house) {
+        return allMembers.stream()
+                .filter(member -> member.house() == house)
+                .map(Member::name)
+                .sorted()
+                .toList();
+    }
+
+    /**
+     * Are any of the salaries greater than 100K?
+     */
+    public boolean salariesGreaterThan(double max) {
+        return allMembers.stream()
+                .mapToDouble(Member::salary)
+                .anyMatch(salary -> salary > max);
+    }
+
+    /**
+     * Are there any members of given house?
+     */
+    public boolean anyMembers(House house) {
+        return allMembers.stream()
+                .anyMatch(member -> member.house() == house);
+    }
+
+    /**
+     * How many members of a given house are there?
+     */
+    public long howMany(House house) {
+        return allMembers.stream()
+                .filter(member -> member.house() == house)
+                .count();
+    }
+
+    /**
+     * Return the names of a given house as a comma-separated string
+     */
+    public String houseMemberNames(House house) {
+        return allMembers.stream()
+                .filter(member -> member.house() == house)
+                .map(Member::name)
+                .collect(Collectors.joining(", "));
+    }
+
+    /**
+     * Who has the highest salary?
+     */
+    public Optional<Member> highestSalary() {
+        return allMembers.stream()
+                .max(Comparator.comparing(Member::salary));
+    }
+
+    /**
+     * Partition members into royalty and non-royalty
+     * (note: royalty are KINGs and QUEENs only)
+     */
+    public Map<Boolean, List<Member>> royaltyPartition() {
+        return allMembers.stream()
+                .collect(Collectors.partitioningBy(
+                        member -> member.title() == Title.KING || member.title() == Title.QUEEN));
+    }
+
+    /**
+     * Group members into Houses
+     */
+    public Map<House, List<Member>> membersByHouse() {
+        return allMembers.stream()
+                .collect(Collectors.groupingBy(Member::house));
+    }
+
+    /**
+     * How many members are in each house?
+     * (group by house, downstream collector using counting
+     */
+    public Map<House, Long> numberOfMembersByHouse() {
+        return allMembers.stream()
+                .collect(Collectors.groupingBy(Member::house, Collectors.counting()));
+    }
+
+    /**
+     * Get the max, min, and ave salary for each house
+     */
+    public Map<House, DoubleSummaryStatistics> houseStats() {
+        return allMembers.stream()
+                .collect(Collectors.groupingBy(Member::house,
+                        Collectors.summarizingDouble(Member::salary)));
+    }
+
 }

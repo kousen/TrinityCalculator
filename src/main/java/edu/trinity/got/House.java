@@ -1,3 +1,18 @@
 package edu.trinity.got;
 
-public record House(String name) {}
+public enum House {
+    ARRYN,
+    BARATHEON,
+    BOLTON,
+    FREY,
+    GREYJOY,
+    LANNISTER,
+    MARTELL,
+    MORMONT,
+    SNOW,
+    TARLY,
+    STARK,
+    TARGARYEN,
+    TULLY,
+    TYRELL
+}
