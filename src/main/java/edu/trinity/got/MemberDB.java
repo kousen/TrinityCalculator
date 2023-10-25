@@ -9,7 +9,7 @@ import java.util.List;
 // - static method to get the instance
 // - private static final field to hold the instance
 public class MemberDB {
-    private static final MemberDB db = new MemberDB();
+    private static final MemberDB DB = new MemberDB();
 
     // Notes:
     // - The birth dates are the same as the actors' birth dates.
@@ -42,7 +42,7 @@ public class MemberDB {
     private MemberDB() {}
 
     public static MemberDB getInstance() {
-        return db;
+        return DB;
     }
 
     public List<Member> getAllMembers() {
