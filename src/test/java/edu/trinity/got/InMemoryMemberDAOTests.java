@@ -1,5 +1,6 @@
 package edu.trinity.got;
 
+import edu.trinity.got.solutions.InMemoryMemberDAO;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
