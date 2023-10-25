@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class InMemoryMemberDAOTests {
-    private final InMemoryMemberDAO dao = new InMemoryMemberDAO();
+    private final MemberDAO dao = new InMemoryMemberDAO();
 
     @Test
     void findById() {
