@@ -3,7 +3,8 @@ package edu.trinity.got;
 import java.util.*;
 
 public class InMemoryMemberDAO implements MemberDAO {
-    private final Collection<Member> allMembers = MemberDB.getInstance().getAllMembers();
+    private final Collection<Member> allMembers =
+            MemberDB.getInstance().getAllMembers();
 
     @Override
     public Optional<Member> findById(Long id) {

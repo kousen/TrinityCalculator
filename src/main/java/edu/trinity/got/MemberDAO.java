@@ -4,8 +4,11 @@ import java.util.*;
 
 public interface MemberDAO {
     Optional<Member> findById(Long id);
+
     Optional<Member> findByName(String name);
+
     List<Member> findAllByHouse(House house);
+
     Collection<Member> getAll();
 
     List<Member> startWithSandSortAlphabetically();
