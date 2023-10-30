@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SortStrings {
+public class SortStringsTest {
     private final String[] strings = "this is a list of strings".split("\\s+");
 
     @Test
