@@ -26,7 +26,7 @@ public class SortStringsTest {
                 .toList();
 
         assertThat(sortedStrings).containsExactly(
-                "a", "is", "of", "this", "list", "strings"
+                "a", "is", "of", "list", "this", "strings"
         );
     }
 }
