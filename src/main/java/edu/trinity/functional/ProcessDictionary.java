@@ -5,15 +5,12 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
 
 @SuppressWarnings("DuplicatedCode")
 public class ProcessDictionary {
     private final Path dictionary = Path.of("src/main/resources/dict/words");
-    // private final Logger logger = Logger.getLogger("default");
 
     int maxLength() {
         try (Stream<String> words = Files.lines(dictionary)) {
@@ -43,7 +40,7 @@ public class ProcessDictionary {
         int maxForFilter = maxLength() - 5;
         try (var words = Files.lines(dictionary)) {
             words.filter(s -> s.length() > maxForFilter)
-                    .collect(groupingBy(String::length)) // Map<Integer,List<String>>
+                    .collect(Collectors.groupingBy(String::length)) // Map<Integer,List<String>>
                     .forEach((len, wordList) -> System.out.println(len + ": " + wordList));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -54,7 +51,8 @@ public class ProcessDictionary {
         System.out.println("\nNumber of words of each length:");
         try (Stream<String> lines = Files.lines(dictionary)) {
             lines.filter(s -> s.length() > 20)
-                    .collect(groupingBy(String::length, counting())) // Map<Integer,Long>
+                    .collect(Collectors.groupingBy(String::length,
+                            Collectors.counting())) // Map<Integer,Long>
                     .forEach((len, num) -> System.out.printf("%d: %d%n", len, num));
         } catch (IOException e) {
             throw new RuntimeException(e);
