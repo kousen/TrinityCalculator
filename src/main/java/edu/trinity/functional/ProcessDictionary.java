@@ -14,7 +14,8 @@ public class ProcessDictionary {
 
     int maxLength() {
         try (Stream<String> words = Files.lines(dictionary)) {
-            return words.mapToInt(String::length).max().orElse(0);
+//            return words.mapToInt(String::length).max().orElse(0);
+            return words.max(Comparator.comparingInt(String::length)).orElse("").length();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
