@@ -212,4 +212,16 @@ public class InMemoryMemberDAOTests {
                         .isCloseTo(66666.66, withinPercentage(0.01))
         );
     }
+    @Test
+    public void totalSalary() {
+
+        double total = dao.getAll().stream()
+                .mapToDouble(Member::salary)
+                .sum();
+
+        assertThat(total).isCloseTo(2213456, within(0.01));
+
+    }
+
+    
 }
