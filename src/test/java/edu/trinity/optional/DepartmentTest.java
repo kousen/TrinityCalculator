@@ -1,5 +1,6 @@
 package edu.trinity.optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -12,9 +13,15 @@ class DepartmentTest {
     private final Manager bart = new Manager("Bart", "J", "Simpson");
     private final Manager lisa = new Manager("Lisa", null, "Simpson");
 
-    private final Department mischief = new Department(bart);
-    private final Department studying = new Department(lisa);
+    private final Department mischief = new Department("Mischief");
+    private final Department studying = new Department("Studying");
     private final Department play = new Department(null);
+
+    @BeforeEach
+    void setUp() {
+        mischief.setManager(bart);
+        studying.setManager(lisa);
+    }
 
     @Test
     void getManagerThatExists() {
