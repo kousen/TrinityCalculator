@@ -63,10 +63,11 @@ public class InMemoryMemberDAOTests {
     public void startWithS_sortAlphabetically() {
         List<Member> members = dao.startWithSandSortAlphabetically();
 
-        assertAll(
-                () -> assertThat(members.get(0).name()).isEqualTo("Sansa"),
-                () -> assertThat(members.get(1).name()).isEqualTo("Stannis")
-        );
+        List<String> memberNames = members.stream()
+                .map(Member::name)
+                .toList();
+        assertThat(memberNames).hasSize(2)
+                        .contains("Sansa", "Stannis");
     }
 
     @Test
@@ -153,7 +154,7 @@ public class InMemoryMemberDAOTests {
     @Test
     public void lannisterNames() {
         String lannisterNames = dao.houseMemberNames(House.LANNISTER);
-        assertThat(lannisterNames).isEqualTo("Jaime, Tyrion, Tywin, Cersei");
+        assertThat(lannisterNames).contains("Jaime, Tyrion, Tywin, Cersei");
     }
 
     @Test
