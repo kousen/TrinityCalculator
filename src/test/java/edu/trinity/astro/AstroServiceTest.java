@@ -9,8 +9,11 @@ class AstroServiceTest {
 
     @Test
     void getAstroData() throws Exception {
-        String astroData = astroService.getAstroData();
+        AstroResponse astroData = astroService.getAstroData();
         System.out.println(astroData);
-        assertThat(astroData).contains("success");
+        assertThat(astroData.message()).isEqualTo("success");
+        System.out.println("There are " + astroData.number() + " people in space.");
+        astroData.people().forEach(person ->
+                System.out.println(person.name() + " is in the " + person.craft()));
     }
 }
