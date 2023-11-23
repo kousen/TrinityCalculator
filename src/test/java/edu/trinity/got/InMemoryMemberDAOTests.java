@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
@@ -214,4 +215,33 @@ public class InMemoryMemberDAOTests {
                         .isCloseTo(66666.66, withinPercentage(0.01))
         );
     }
+
+    @Test
+    void sortingDemo() {
+        List<Member> members = Arrays.asList(
+                new Member(1L, Title.KING, "A", LocalDate.now(), 0.0, House.STARK),
+                new Member(1L, Title.KING, "F", LocalDate.now(), 0.0, House.STARK),
+                new Member(1L, Title.KING, "D", LocalDate.now(), 0.0, House.STARK),
+                new Member(1L, Title.KING, "C", LocalDate.now(), 0.0, House.LANNISTER),
+                new Member(1L, Title.KING, "B", LocalDate.now(), 0.0, House.LANNISTER),
+                new Member(1L, Title.KING, "E", LocalDate.now(), 0.0, House.LANNISTER)
+        );
+        System.out.println("Sort by name");
+        members.stream()
+                .sorted(Comparator.comparing(Member::name))
+                .forEach(System.out::println);
+
+        System.out.println("Sort by house then name (using Comparator.comparing)");
+        members.stream()
+                .sorted(Comparator.comparing(Member::house)
+                        .thenComparing(Member::name))
+                .forEach(System.out::println);
+
+        System.out.println("Sort by house then name (using sorted() twice)");
+        members.stream()
+                .sorted(Comparator.comparing(Member::house))
+                .sorted(Comparator.comparing(Member::name))
+                .forEach(System.out::println);
+    }
+
 }
